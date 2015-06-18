@@ -50,12 +50,21 @@ function backboneFetchSync(method, model, options) {
         return response.json();
       })
       .then(function (responseData) {
-        if (options.success) {
-          options.success.call(this, responseData, origResponse, options);
-        }
+        if(origResponse.status>=400){
+          if (options.error) {
+            options.error.call(this, responseData, origResponse, options);
+          }
 
-        resolve({ responseData, origResponse, options });
-      }, function (err) {
+          reject({ responseData, origResponse, options });
+        }else{
+          if (options.success) {
+            options.success.call(this, responseData, origResponse, options);
+          }
+
+          resolve({ responseData, origResponse, options });
+        }
+      })
+      .catch(function (err) {
         if (options.error) {
           options.error.call(this, err, origResponse, options);
         }
