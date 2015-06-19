@@ -38,9 +38,9 @@ function backboneFetchSync(method, model, options) {
       options.headers.append('Content-Type', 'application/json');
     }
 
-    params.headers = options.headers;
     params.body = JSON.stringify(options.body || model.toJSON(options));
   }
+  params.headers = options.headers;
 
   return new Promise(function (resolve, reject) {
     var origResponse;
