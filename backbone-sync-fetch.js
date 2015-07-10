@@ -1,3 +1,5 @@
+var Qs = require('qs');
+
 var methodMap = {
   'create': 'POST',
   'update': 'PUT',
@@ -32,7 +34,13 @@ function backboneFetchSync(method, model, options) {
     options.url = result(model, 'url') || throwUrlError();
   }
 
-  if (type !== 'GET') {
+  if (type === 'GET') {
+    if(options.data){
+      // var existingParams = options.url.split(/?/)[0];
+      var queryString = Qs.stringify(options.data);
+      options.url += '?' + queryString;
+    }
+  }else{
     if (!options.headers) {
       options.headers = new Headers();
       options.headers.append('Content-Type', 'application/json');
