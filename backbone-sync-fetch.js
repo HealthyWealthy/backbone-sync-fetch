@@ -37,7 +37,7 @@ function backboneFetchSync(method, model, options) {
   if (type === 'GET') {
     if(options.data){
       // var existingParams = options.url.split(/?/)[0];
-      var queryString = Qs.stringify(options.data);
+      var queryString = Qs.stringify(options.data, {arrayFormat: 'brackets'});
       options.url += '?' + queryString;
     }
   }else{
